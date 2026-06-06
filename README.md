@@ -4,7 +4,7 @@ Official Homebrew formulas for the Plak ecosystem.
 
 ## Available Formulae
 
-- `plak-cli` — Interactive Bash CLI for SSH servers, local domains, and SSH keys.
+- `plak-cli` — Plak CLI is the simplest way to run local WordPress sites and deploy them to any cloud — instant environments, built-in HTTPS, and seamless workflows from your terminal.
 
 ## Installation
 
