@@ -11,4 +11,4 @@ Official Homebrew formulas for the Plak ecosystem.
 Install directly:
 
 ```bash
-brew install plakio/tap/plak-cli
+brew install plakio/tap/<formula>
