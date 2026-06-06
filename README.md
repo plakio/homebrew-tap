@@ -1,16 +1,14 @@
-# Homebrew Tap for Plak CLI
+# Homebrew Tap for Plak
 
-Install Plak with Homebrew:
+Official Homebrew formulas for the Plak ecosystem.
+
+## Available Formulae
+
+- `plak-cli` — Interactive Bash CLI for SSH servers, local domains, and SSH keys.
+
+## Installation
+
+Install directly:
 
 ```bash
 brew install plakio/tap/plak-cli
-```
-
-Or tap the repository first:
-
-```bash
-brew tap plakio/tap
-brew install plak-cli
-```
-
-Formula source: `Formula/plak-cli.rb`
