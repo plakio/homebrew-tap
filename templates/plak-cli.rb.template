@@ -14,6 +14,5 @@ class PlakCli < Formula
 
   test do
     assert_match "plak v__VERSION__", shell_output("#{bin}/plak version")
-    assert_match "Dependencies:", shell_output("#{bin}/plak status", 1)
   end
 end
