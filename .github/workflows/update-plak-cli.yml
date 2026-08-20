@@ -1,0 +1,62 @@
+name: Update Plak CLI
+
+on:
+  repository_dispatch:
+    types: [new-release]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version or tag to publish (for example, 0.4.53 or v0.4.53)
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-plak-cli
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: macos-latest
+    env:
+      VERSION: ${{ github.event_name == 'repository_dispatch' && github.event.client_payload.version || inputs.version }}
+    steps:
+      - name: Check out tap
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Generate formula
+        run: ./scripts/update-plak-cli.sh "$VERSION"
+
+      - name: Validate formula
+        run: ruby -c Formula/plak-cli.rb
+
+      - name: Install and test formula
+        run: |
+          brew tap plakio/tap
+          cp Formula/plak-cli.rb "$(brew --repository plakio/tap)/Formula/plak-cli.rb"
+          brew install --build-from-source plakio/tap/plak-cli
+          brew test plakio/tap/plak-cli
+
+      - name: Clean up Homebrew test
+        if: always()
+        run: |
+          brew uninstall plak-cli || true
+          brew untap plakio/tap || true
+
+      - name: Commit formula
+        run: |
+          if git diff --quiet -- Formula/plak-cli.rb; then
+            echo "Formula is already up to date."
+            exit 0
+          fi
+
+          VERSION="${VERSION#v}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Formula/plak-cli.rb
+          git commit -m "plak-cli $VERSION"
+          git push origin main
