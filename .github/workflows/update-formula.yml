@@ -24,22 +24,45 @@ concurrency:
 jobs:
   update:
     runs-on: macos-latest
-    env:
-      FORMULA: ${{ github.event_name == 'repository_dispatch' && github.event.client_payload.formula || inputs.formula }}
-      VERSION: ${{ github.event_name == 'repository_dispatch' && github.event.client_payload.version || inputs.version }}
     steps:
       - name: Check out tap
         uses: actions/checkout@v5
         with:
           ref: main
 
+      - name: Resolve formula and version
+        id: resolve
+        run: |
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            FORMULA="${{ github.event.client_payload.formula }}"
+            VERSION="${{ github.event.client_payload.version }}"
+          else
+            FORMULA="${{ inputs.formula }}"
+            VERSION="${{ inputs.version }}"
+          fi
+          # Backward-compat: plak-cli's old notify did not send formula.
+          if [ -z "$FORMULA" ]; then
+            FORMULA="plak-cli"
+          fi
+          FORMULA="${FORMULA#v}"
+          VERSION="${VERSION#v}"
+          echo "FORMULA=$FORMULA" >> "$GITHUB_OUTPUT"
+          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
+
       - name: Generate formula
+        env:
+          FORMULA: ${{ steps.resolve.outputs.FORMULA }}
+          VERSION: ${{ steps.resolve.outputs.VERSION }}
         run: ./scripts/update-formula.sh "$FORMULA" "$VERSION"
 
       - name: Validate formula
+        env:
+          FORMULA: ${{ steps.resolve.outputs.FORMULA }}
         run: ruby -c "Formula/${FORMULA}.rb"
 
       - name: Install and test formula
+        env:
+          FORMULA: ${{ steps.resolve.outputs.FORMULA }}
         run: |
           brew tap plakio/tap
           cp "Formula/${FORMULA}.rb" "$(brew --repository plakio/tap)/Formula/${FORMULA}.rb"
@@ -48,18 +71,22 @@ jobs:
 
       - name: Clean up Homebrew test
         if: always()
+        env:
+          FORMULA: ${{ steps.resolve.outputs.FORMULA }}
         run: |
           brew uninstall "${FORMULA}" || true
           brew untap plakio/tap || true
 
       - name: Commit formula
+        env:
+          FORMULA: ${{ steps.resolve.outputs.FORMULA }}
+          VERSION: ${{ steps.resolve.outputs.VERSION }}
         run: |
           if git diff --quiet -- "Formula/${FORMULA}.rb"; then
             echo "Formula is already up to date."
             exit 0
           fi
 
-          VERSION="${VERSION#v}"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add "Formula/${FORMULA}.rb"
