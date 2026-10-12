@@ -9,6 +9,43 @@ Official Homebrew formulas for the Plak ecosystem.
 
 ## Installation
 
+### Linux and Ubuntu WSL2 prerequisites
+
+Use Homebrew inside WSL2, not a native Windows shell. Follow Homebrew's
+[Linux requirements](https://docs.brew.sh/Homebrew-on-Linux#requirements) and
+use its supported `/home/linuxbrew/.linuxbrew` prefix for available bottles.
+On Ubuntu/Debian, run these commands **yourself** if the packages are missing:
+
+```bash
+sudo apt-get update
+sudo apt-get install build-essential procps curl file git
+```
+
+If Homebrew already works except for `No developer tools installed`, the missing
+package is normally `build-essential`. It supplies GCC, make and development
+headers. On Fedora use `sudo dnf group install development-tools`; on RHEL/CentOS
+Stream use `sudo dnf group install 'Development Tools'`, plus
+`sudo dnf install procps-ng curl file git`. Arch uses
+`sudo pacman -S base-devel procps-ng curl file git`.
+
+Plak itself is Bash: `compile.sh` concatenates modules and does not compile C or
+Go. However, this tap currently has **no Plak bottle**, so Homebrew runs its
+mandatory source-install developer-tools checks before the formula's install
+method. A gum bottle does not remove that requirement. Do not use
+`--build-from-source` unnecessarily: other dependencies can use bottles on
+supported platforms/prefixes. Do not bypass Homebrew's checks or add compiler
+dependencies to the formula to conceal missing host prerequisites.
+
+The [direct CLI installer](https://github.com/plakio/plak-cli#installation)
+does not require a compiler to copy the Bash CLI; installing local stack
+dependencies afterward has separate requirements. No Plak installer silently
+installs the system packages listed above. Bottles would require an additional
+build/distribution pipeline; they are not published by this change.
+
+The clean Ubuntu CI test below checks the missing-tools failure and successful
+installation after explicit prerequisites. It is **not** a real WSL2 test;
+Windows integration must still be accepted manually.
+
 Install directly:
 
 ```bash
