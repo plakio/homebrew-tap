@@ -1,8 +1,8 @@
 class WpMcpCli < Formula
   desc "Bash + gum CLI for the WP-MCP WordPress plugin"
   homepage "https://github.com/plakio/wp-mcp-cli"
-  url "https://github.com/plakio/wp-mcp-cli/archive/refs/tags/v0.1.9.tar.gz"
-  sha256 "7e14da29d5c07a4881b1214c6112937c7df0670c241cf14cc1f13c8756ec2c95"
+  url "https://github.com/plakio/wp-mcp-cli/archive/refs/tags/v0.2.0.tar.gz"
+  sha256 "686ca3c86d196053d87e60aad87c73febcb490ecb7650b780031a4dd5310069d"
   license "AGPL-3.0-or-later"
 
   depends_on "gum"
@@ -13,6 +13,6 @@ class WpMcpCli < Formula
   end
 
   test do
-    assert_match "wp-mcp v0.1.9", shell_output("#{bin}/wp-mcp version")
+    assert_match "wp-mcp v0.2.0", shell_output("#{bin}/wp-mcp version")
   end
 end
