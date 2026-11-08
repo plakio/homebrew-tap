@@ -6,6 +6,7 @@ Official Homebrew formulas for the Plak ecosystem.
 
 - `plak-cli` — Plak CLI is the simplest way to run local WordPress sites and deploy them to any cloud — instant environments, built-in HTTPS, and seamless workflows from your terminal.
 - `wp-mcp-cli` — Bash + gum CLI for the [WP-MCP WordPress plugin](https://github.com/plakio/wp-mcp). Discovers, describes, and executes abilities over REST + HTTP Basic.
+- `io` — A minimal AI harness with a shell, powered by the Pi SDK. Requires the fully qualified tap name because `homebrew/core` has an unrelated formula named `io`.
 
 ## Installation
 

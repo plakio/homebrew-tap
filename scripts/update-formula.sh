@@ -9,6 +9,7 @@
 # Supported formulas (whitelist):
 #   plak-cli      plakio/plak-cli
 #   wp-mcp-cli    plakio/wp-mcp-cli
+#   io            plakio/io
 #
 # Adding a new formula:
 #   1. Drop a templates/<formula>.rb.template file with __VERSION__ and __SHA256__ placeholders.
@@ -36,6 +37,7 @@ repo=""
 case "$formula" in
     plak-cli)    repo="plak-cli" ;;
     wp-mcp-cli)  repo="wp-mcp-cli" ;;
+    io)          repo="io" ;;
     *)
         echo "Unknown formula: $formula" >&2
         echo "Add it to the case statement in scripts/update-formula.sh first." >&2
