@@ -1,8 +1,8 @@
 class Io < Formula
   desc "Minimal AI harness with a shell, powered by the Pi SDK"
   homepage "https://github.com/plakio/io"
-  url "https://github.com/plakio/io/archive/refs/tags/v0.1.9.tar.gz"
-  sha256 "1168a7935fd48563de969e30a317cac6ac4f5bad623f45be5b5e5125e9415de1"
+  url "https://github.com/plakio/io/archive/refs/tags/v0.1.10.tar.gz"
+  sha256 "0e8a70005fdafe1de0792af2ff01eb3ff75b97e89cb956fbb1adf67a7a76d178"
   license "MIT"
 
   depends_on "node"
@@ -19,7 +19,7 @@ class Io < Formula
   end
 
   test do
-    assert_match "io 0.1.9", shell_output("#{bin}/io --version")
+    assert_match "io 0.1.10", shell_output("#{bin}/io --version")
     assert_match "Usage:", shell_output("#{bin}/io --help")
     assert_predicate libexec/"LICENSE", :exist?
     assert_predicate libexec/"dist/THIRD_PARTY_NOTICES.txt", :exist?
