@@ -3,14 +3,14 @@ class Io < Formula
   homepage "https://github.com/plakio/io"
   url "https://github.com/plakio/io/archive/refs/tags/v__VERSION__.tar.gz"
   sha256 "__SHA256__"
-  # The IO project license is pending. Do not add a license declaration yet.
+  license "MIT"
 
   depends_on "node"
 
   def install
     system "npm", "ci", "--ignore-scripts"
     system "npm", "run", "build"
-    libexec.install "dist", "package.json"
+    libexec.install "dist", "package.json", "LICENSE"
     (bin/"io").write <<~EOS
       #!/bin/bash
       exec "#{Formula["node"].opt_bin}/node" "#{libexec}/dist/cli.js" "$@"
@@ -21,6 +21,7 @@ class Io < Formula
   test do
     assert_match "io __VERSION__", shell_output("#{bin}/io --version")
     assert_match "Usage:", shell_output("#{bin}/io --help")
+    assert_predicate libexec/"LICENSE", :exist?
     assert_predicate libexec/"dist/THIRD_PARTY_NOTICES.txt", :exist?
   end
 end
