@@ -23,6 +23,9 @@ case "$mode" in
         brew install plakio/tap/plak-cli
         brew test plakio/tap/plak-cli
         plak version | grep -E '^plak v[0-9]+\.[0-9]+\.[0-9]+$'
+        brew install plakio/tap/io
+        brew test plakio/tap/io
+        io --version | grep -E '^io [0-9]+\.[0-9]+\.[0-9]+$'
         ;;
     *) echo "Usage: $0 missing-tools|installed-tools" >&2; exit 1 ;;
 esac
