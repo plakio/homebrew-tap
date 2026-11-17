@@ -7,6 +7,10 @@ class PlakCli < Formula
 
   depends_on "gum"
 
+  # Older standalone updaters replaced the Homebrew symlink with a
+  # regular file. Let Homebrew back it up and relink the keg on upgrade.
+  link_overwrite "bin/plak"
+
   def install
     system "./compile.sh"
     bin.install "plak.sh" => "plak"
