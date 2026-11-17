@@ -1,8 +1,8 @@
 class PlakCli < Formula
   desc "Interactive Bash CLI for SSH servers, local domains, and SSH keys"
   homepage "https://github.com/plakio/plak-cli"
-  url "https://github.com/plakio/plak-cli/archive/refs/tags/v0.4.88.tar.gz"
-  sha256 "e0ec10b48db6343498a9e0439da7857e1826948c319bb9fb5d90d6226fc7f85d"
+  url "https://github.com/plakio/plak-cli/archive/refs/tags/v0.4.89.tar.gz"
+  sha256 "8048ebcd3c7b084e01b7d631a0520d2c4bf4ab10ef787e2882dd18c471ac7c52"
   license "MIT"
 
   depends_on "gum"
@@ -17,6 +17,6 @@ class PlakCli < Formula
   end
 
   test do
-    assert_match "plak v0.4.88", shell_output("#{bin}/plak version")
+    assert_match "plak v0.4.89", shell_output("#{bin}/plak version")
   end
 end
