@@ -1,27 +1,24 @@
 class Io < Formula
-  desc "Minimal AI harness with a shell, powered by the Pi SDK"
+  desc "Minimal AI harness with an embedded OpenCode engine and OpenTUI"
   homepage "https://github.com/plakio/io"
   url "https://github.com/plakio/io/archive/refs/tags/v__VERSION__.tar.gz"
   sha256 "__SHA256__"
   license "MIT"
 
-  depends_on "node"
+  depends_on "bun" => :build
+  depends_on "node" => :build
 
   def install
-    system "npm", "ci", "--ignore-scripts"
+    system "npm", "ci", "--ignore-scripts", "--no-audit", "--no-fund"
     system "npm", "run", "build"
-    libexec.install "dist", "package.json", "LICENSE"
-    (bin/"io").write <<~EOS
-      #!/bin/bash
-      exec "#{Formula["node"].opt_bin}/node" "#{libexec}/dist/cli.js" "$@"
-    EOS
-    chmod 0755, bin/"io"
+    libexec.install Dir["dist-next/*"]
+    bin.install_symlink libexec/"io" => "io"
   end
 
   test do
     assert_match "io __VERSION__", shell_output("#{bin}/io --version")
     assert_match "Usage:", shell_output("#{bin}/io --help")
     assert_predicate libexec/"LICENSE", :exist?
-    assert_predicate libexec/"dist/THIRD_PARTY_NOTICES.txt", :exist?
+    assert_predicate libexec/"THIRD_PARTY_NOTICES.txt", :exist?
   end
 end
