@@ -1,8 +1,8 @@
 class Io < Formula
   desc "Minimal AI harness with an embedded OpenCode engine and OpenTUI"
   homepage "https://github.com/plakio/io"
-  url "https://github.com/plakio/io/archive/refs/tags/v0.2.1.tar.gz"
-  sha256 "ea23fca8313c032226f6d8205d61cc2938de2017116b94ebdd1692fa721db1ab"
+  url "https://github.com/plakio/io/archive/refs/tags/v0.2.2.tar.gz"
+  sha256 "5b111ccf6fa3ed4d3ccc46465ad8991f348a4b1fc57ac634a57a243b0d7de4d2"
   license "MIT"
 
   depends_on "bun" => :build
@@ -16,7 +16,7 @@ class Io < Formula
   end
 
   test do
-    assert_match "io 0.2.1", shell_output("#{bin}/io --version")
+    assert_match "io 0.2.2", shell_output("#{bin}/io --version")
     assert_match "Usage:", shell_output("#{bin}/io --help")
     assert_predicate libexec/"LICENSE", :exist?
     assert_predicate libexec/"THIRD_PARTY_NOTICES.txt", :exist?
